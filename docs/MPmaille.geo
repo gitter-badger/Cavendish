@@ -4,7 +4,7 @@
 
    Version  - 6.14 - 22 Janvier 2002
 
-   Utilisateur : Ecole Nationale d'Ing�nieurs - BREST
+   Utilisateur : Ecole Nationale d'Ingénieurs - BREST
 
 $debut du fichier
 $version
