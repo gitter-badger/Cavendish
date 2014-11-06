@@ -1,1 +1,0 @@
-Formatage des données
