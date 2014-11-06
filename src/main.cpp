@@ -8,12 +8,19 @@
 #include <cmath>
 #include <stdio.h>
 #include "vertice.h"
-
+#include <direct.h>
 
 
 enum {HEADER, NB_POINT, POINT, COURBE, SEGMENT, END};
 
 #define NB_DIGIT 11
+
+const char *sep =
+#ifdef _WIN32
+    "\\\\";
+#else
+    "/";
+#endif
 
 using namespace std;
 
@@ -26,8 +33,14 @@ string float2scientific(float d);
 
 int main(int argc, char **argv)
 {
-    string src = "..\\docs\\MPmaille.geo";
-    string dst = "..\\results\\maillage.mai";
+    char src_[100], dst_[100];
+    sprintf(src_, "..%s%s%s%s", sep, "docs", sep, "MPmaille.geo");
+    sprintf(dst_, "..%s%s%s%s", sep, "results", sep, "maillage.mai");
+
+    string src(src_), dst(dst_);
+
+    //generate result dir
+    mkdir(dst.substr(0, dst.find_last_of(sep)-1).c_str());
 
     cout << getFileName(dst) << endl;
 
