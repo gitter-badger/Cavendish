@@ -23,6 +23,7 @@ string num2string(int x);
 string num2string(float x);
 string float2scientific(float d);
 
+
 int main(int argc, char **argv)
 {
     string src = "..\\docs\\MPmaille.geo";
@@ -48,7 +49,7 @@ int main(int argc, char **argv)
 
     int state = HEADER;
 
-    struct Nodes *nodes = initNodes();
+    struct List<struct Node> *nodes = initList<struct Node>();
     struct Node *node = NULL;
 
 
@@ -78,7 +79,7 @@ int main(int argc, char **argv)
                 float x, y;
                 sscanf(line.c_str(), "%*s %f %f %*s", &x, &y);
                 node = initNode(x, y, ORIGINAL);
-                addNode(nodes, node);
+                addElement<struct Node>(nodes, node);
                 original_points.push_back(line);
             }
             break;
@@ -96,7 +97,7 @@ int main(int argc, char **argv)
     struct Node *tmp;
     for (int i=1; i <= nodes->nb; i++)
     {
-        tmp = getNode(nodes, i);
+        tmp = getElement<struct Node>(nodes, i);
         cout << "node: " << tmp->id << "\tx:"<< tmp->x << endl << "\ty:"<< tmp->y << endl;
     }
 
