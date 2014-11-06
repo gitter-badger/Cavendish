@@ -17,7 +17,7 @@ struct Segment
     Node *node2;
     int id;
     int type;
-    struct Node *next;
+    struct Segment *next;
 };
 
 template<typename T>

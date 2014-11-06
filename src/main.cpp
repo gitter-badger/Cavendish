@@ -50,8 +50,9 @@ int main(int argc, char **argv)
     int state = HEADER;
 
     struct List<struct Node> *nodes = initList<struct Node>();
-    struct List<struct Segement> *segments = initList<struct Segment>();
+    struct List<struct Segment> *segments = initList<struct Segment>();
     struct Node *node = NULL;
+    struct Segment *segment = NULL;
 
 
     //parsing
@@ -74,7 +75,7 @@ int main(int argc, char **argv)
             break;
         case POINT:
             if(!line.compare("$courbes"))
-                state = COURBE;
+                state = SEGMENT;
             else
             {
                 float x, y;
@@ -84,16 +85,15 @@ int main(int argc, char **argv)
                 original_points.push_back(line);
             }
             break;
-        case COURBE:
-            if(!line.compare("$courbes"))
-                state = COURBE;
+        case SEGMENT:
+            if(!line.compare("//// fin"))
+                state = END;
             else
             {
-                float x, y;
-                sscanf(line.c_str(), "%*s %f %f %*s", &x, &y);
-                node = initNode(x, y, ORIGINAL);
-                addElement<struct Node>(nodes, node);
-                original_points.push_back(line);
+                int node_id1, node_id2;
+                sscanf(line.c_str(), "%*s %d %d %*s", &node_id1, &node_id2);
+                segment = initSegment(getElement<struct Node>(nodes, node_id1), getElement<struct Node>(nodes, node_id2), ORIGINAL);
+                addElement<struct Segment>(segments, segment);
             }
             break;
         default:
@@ -112,6 +112,13 @@ int main(int argc, char **argv)
     {
         tmp = getElement<struct Node>(nodes, i);
         cout << "node: " << tmp->id << "\tx:"<< tmp->x << endl << "\ty:"<< tmp->y << endl;
+    }
+
+    struct Segment *tmp2;
+    for (int i=1; i <= segments->nb; i++)
+    {
+        tmp2 = getElement<struct Segment>(segments, i);
+        cout << "node: " << tmp2->id << "\tnode 1: "<< tmp2->node1->id << endl << "\tnode 2: "<< tmp2->node2->id << endl << endl;
     }
 
     cout << float2scientific(tmp->x) << endl;
