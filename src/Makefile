@@ -1,30 +1,33 @@
 ifdef ComSpec
-    PATHSEP2=\\
+	PATHSEP2=\\
 	RM =del /s
+    EXT=.exe
 	config=configure_win
 else
-    PATHSEP2=/
+	PATHSEP2=/
 	RM =rm -rf
 	config=configure_linux
+    EXT=
 endif
 
 CC=g++
-CFLAGS=-c -W -Wall -ansi -pedantic
+CFLAGS=-W -Wall -ansi -pedantic
 PATH_SRC=
 PATH_DST=..$(PATHSEP2)bin$(PATHSEP2)
 LDFLAGS=
 EXEC=cavendish
 
-all: $(config) $(PATH_DST)$(EXEC) launch
+SRC=$(wildcard $(PATH_SRC)*.cpp)
+OBJS=$(addprefix $(PATH_DST), $(SRC:.cpp=.o ))
 
-$(PATH_DST)cavendish: $(PATH_DST)main.o $(PATH_DST)vertice.o
-	$(CC) $(PATH_DST)main.o $(PATH_DST)vertice.o -o $(PATH_DST)$(EXEC)
 
-$(PATH_DST)vertice.o: $(PATH_SRC)vertice.cpp
-	$(CC) $(CFLAGS) $(PATH_SRC)vertice.cpp -o $(PATH_DST)vertice.o
+all:$(config) $(PATH_DST)$(EXEC) launch
 
-$(PATH_DST)main.o: $(PATH_SRC)main.cpp
-	$(CC) $(CFLAGS) $(PATH_SRC)main.cpp -o $(PATH_DST)main.o
+$(PATH_DST)$(EXEC): $(OBJS)
+	$(CC) $(PATH_DST)$(OBJS) -o $@
+
+%.o: %.cpp
+	$(CC) $(CFLAGS) -c $< -o $(PATH_DST)$@
 
 configure_win:
 	@echo off
@@ -34,7 +37,7 @@ configure_linux:
 	mkdir -p $(PATH_DST)
 
 launch:
-	$(PATH_DST)$(EXEC).exe
+	$(PATH_DST)$(EXEC)$(EXT)
 
 clean:
 	$(RM) $(PATH_DST)*.o

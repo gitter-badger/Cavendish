@@ -1,19 +1,13 @@
 #include <iostream>
 #include <fstream>
-#include <sstream>
-#include <time.h>
 #include <vector>
 #include <stdlib.h>
-#include <iomanip>
-#include <cmath>
-#include <stdio.h>
-#include "vertice.h"
 #include <direct.h>
+#include "vertice.h"
+#include "utils.h"
 
 
 enum {HEADER, NB_POINT, POINT, COURBE, SEGMENT, END};
-
-#define NB_DIGIT 11
 
 const char *sep =
 #ifdef _WIN32
@@ -23,13 +17,6 @@ const char *sep =
 #endif
 
 using namespace std;
-
-void currentDate(string &date, string &hour);
-string getFileName(string &strPath);
-string num2string(int x);
-string num2string(float x);
-string float2scientific(float d);
-
 
 int main(int argc, char **argv)
 {
@@ -176,92 +163,4 @@ int main(int argc, char **argv)
     }
 
     return 0;
-}
-
-void currentDate(string &date, string &hour)
-{
-    struct tm *timeStruct;
-    time_t time_ptr;
-    time(&time_ptr);
-    timeStruct = localtime(&time_ptr);
-    int currentMonth = timeStruct->tm_mon + 1;
-    int currentDay   = timeStruct->tm_mday;
-    int currentYear  = timeStruct->tm_year + 1900;
-    char currentDate[30];
-    char currentHour[30];
-    sprintf(currentDate, "%02d/%02d/%d", currentDay, currentMonth, currentYear);
-    sprintf(currentHour, "%02d/%02d/%02d", timeStruct->tm_hour, timeStruct->tm_min, timeStruct->tm_sec);
-
-    date = currentDate;
-    hour = currentHour;
-
-}
-
-string getFileName(string &strPath)
-{
-    string filename = strPath.substr( strPath.find_last_of("\\") + 1 );
-    return filename.substr(0, filename.find_last_of("."));
-}
-
-string num2string(float x)
-{
-    string s;
-    stringstream ss;
-    ss << x;
-    s = ss.str();
-    return s;
-}
-
-string num2string(int x)
-{
-    string s;
-    stringstream ss;
-    ss << x;
-    s = ss.str();
-    return s;
-}
-
-string float2scientific(float d)
-{
-    char buffer[30];
-    double param, fractpart, intpart;
-
-    float exposant = 0;
-    float x = d;
-    string signe ="+";
-
-    //get exposant
-    if(d <= 1.0)
-    {
-        do
-        {
-            x = d*pow(10, ++exposant);
-        }while(x <= 1.0);
-
-        signe = "-";
-    }
-    else
-    {
-        exposant = -1;
-        do
-        {
-            x = d*pow(10, --exposant);
-        }while(x >= 10.0);
-
-        exposant = -exposant;
-    }
-
-    param = x;
-    fractpart = modf (param , &intpart);
-    ostringstream ss;
-    ss <<fractpart;
-    string s(ss.str());
-
-    string dec = s.substr(s.find_last_of(".")+1);
-
-    dec = dec.append(NB_DIGIT-dec.size(),'0');
-
-    sprintf(buffer, "%d.%sE%s%.02d", (int)intpart ,dec.c_str(), signe.c_str(), (int)exposant);
-
-    return buffer;
 }
