@@ -11,7 +11,7 @@
 
 
 
-enum {HEADER, NB_POINT, POINT, COURBE ,SEGMENT, END};
+enum {HEADER, NB_POINT, POINT, COURBE, SEGMENT, END};
 
 #define NB_DIGIT 11
 
@@ -50,6 +50,7 @@ int main(int argc, char **argv)
     int state = HEADER;
 
     struct List<struct Node> *nodes = initList<struct Node>();
+    struct List<struct Segement> *segments = initList<struct Segment>();
     struct Node *node = NULL;
 
 
@@ -72,6 +73,18 @@ int main(int argc, char **argv)
             state = POINT;
             break;
         case POINT:
+            if(!line.compare("$courbes"))
+                state = COURBE;
+            else
+            {
+                float x, y;
+                sscanf(line.c_str(), "%*s %f %f %*s", &x, &y);
+                node = initNode(x, y, ORIGINAL);
+                addElement<struct Node>(nodes, node);
+                original_points.push_back(line);
+            }
+            break;
+        case COURBE:
             if(!line.compare("$courbes"))
                 state = COURBE;
             else
