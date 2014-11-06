@@ -74,6 +74,32 @@ T* getElement(struct List<T> *list, int id)
 }
 
 template<typename T>
+void popElement(struct List<T> *list, int id)
+{
+    T *element  = list->first;
+    T *previous = NULL;
+
+    if(list->first)
+    {
+        while(element->next)
+        {
+            if(element->id == id)
+                break;
+            previous = element;
+            element = element->next;
+        }
+    }
+
+    if(previous)
+    {
+        previous->next = element->next;
+        list->nb--;
+        delete element;
+    }
+
+}
+
+template<typename T>
 struct List<T>* initList()
 {
     struct List<T> *list = new List<T>;

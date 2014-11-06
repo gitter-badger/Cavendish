@@ -115,10 +115,11 @@ int main(int argc, char **argv)
     }
 
     struct Segment *tmp2;
+    popElement<struct Segment>(segments, 5);
     for (int i=1; i <= segments->nb; i++)
     {
         tmp2 = getElement<struct Segment>(segments, i);
-        cout << "node: " << tmp2->id << "\tnode 1: "<< tmp2->node1->id << endl << "\tnode 2: "<< tmp2->node2->id << endl << endl;
+        cout << "segment: " << tmp2->id << endl << "\tnode 1: "<< tmp2->node1->id << endl << "\tnode 2: "<< tmp2->node2->id << endl << endl;
     }
 
     cout << float2scientific(tmp->x) << endl;
