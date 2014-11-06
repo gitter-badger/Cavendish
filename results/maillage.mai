@@ -1,0 +1,33 @@
+
+   RDM - Dessin - Maillage
+   Calcul des Structures par la Méthode des Eléments Finis
+
+   Version  - 6.14 - 22 Janvier 2002
+
+   Utilisateur : Ecole Nationale d'Ing�nieurs - BREST
+
+$debut du fichier
+$version
+6.14
+$SI unites
+$nom du fichier
+maillage.mai
+$date
+06/11/2014
+$HEURE
+00/41/09
+$PROBLEME
+THPLAN
+$NOEUDS
+0
+####TODO####
+$limites de zones
+####TODO####
+$points a mailler
+6
+   1  5.00000000000E-02  5.50000000000E-01 1  1.00
+   2  5.00000000000E-01  5.50000000000E-01 1  1.00
+   3  9.50000000000E-01  5.00000000000E-02 1  1.00
+   4  5.00000000000E-02  5.00000000000E-02 1  1.00
+   5  5.00000000000E-01  3.00000000000E-01 1  1.00
+   6  9.50000000000E-01  3.00000000000E-01 1  1.00
